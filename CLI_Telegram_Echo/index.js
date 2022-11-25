@@ -1,6 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api'
 import axios from 'axios'
 import * as dotenv from 'dotenv'
+
 dotenv.config()
 
 const TOKEN = process.env.TELEGRAM_TOKEN
@@ -18,25 +19,26 @@ const getRandomPhoto = async () => {
     }
 }
 
-
 bot.on('message', msg => {
     const { chat: { id, first_name }, text } = msg
 
-    if (text === 'photo') {
-        console.log(`User ${first_name} asked for a picture`)
-
-        bot.onText(/photo/, async function onPhotoText() {
-            const res = await getRandomPhoto()
-            await bot.sendPhoto(id, res, {
-                caption: "Here is a new picture!"
-            })
-
-        });
-    } else {
+    if (msg.text !== 'photo') {
         console.log(`User ${first_name} wrote ${text}`)
-        bot.sendMessage(id, `You wrote ${text}`)
+    } else {
+        console.log(`User ${first_name} asked for a picture`)
     }
+    bot.sendMessage(id, `You wrote ${text}`)
 })
+
+
+bot.onText(/photo/, async function onPhotoText(msg) {
+    const res = await getRandomPhoto()
+    await bot.sendPhoto(msg.chat.id, res, {
+        caption: "Here is a new picture!"
+    })
+
+});
+
 
 
 
