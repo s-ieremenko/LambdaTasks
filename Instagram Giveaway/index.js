@@ -24,8 +24,7 @@ const map = new Map()
 
 fs.promises.readdir('./bigdata').then(files => Promise.allSettled(files.map((file) => {
     return loadFile(`./bigdata/${file}`, file)
-})).then((results) => {
-    results.forEach(res => console.log(res.status))
+})).then(() => {
     const end = Date.now()
     
     console.log(`Time taken: ${(end - start) / 1000}s`)
@@ -37,9 +36,5 @@ fs.promises.readdir('./bigdata').then(files => Promise.allSettled(files.map((fil
 }))
 
 
-// Time taken: 4.551s
-// Number of unique values:  129240
-// Number of values, that exist in all files:  26045
-// Number of values, that exist at least in 10 files:  108345
 
 

@@ -1,6 +1,9 @@
 export const checkIntersection = (map, line, file) => {
+    let fileNames = map.get(line)
     if (map.has(line)) {
-        map.set(line, [...map.get(line), file])
+        if (!fileNames.includes(file)) {
+            map.set(line, [...fileNames, file])
+        }
     } else {
         map.set(line, [file])
     }
